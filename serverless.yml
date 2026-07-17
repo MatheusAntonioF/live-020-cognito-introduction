@@ -1,8 +1,4 @@
 service: live020
-frameworkVersion: '3'
-
-plugins:
-  - serverless-esbuild
 
 package:
   individually: true
@@ -21,11 +17,58 @@ custom:
   sourcemap: false
   target: node20
   exclude:
-    - '@aws-sdk/*'
+    - "@aws-sdk/*"
   define:
     require.resolve: undefined
   platform: node
   concurrency: 10
+
+# Recursos necessários para startar a aplicação
+# Todo código criado aqui segue a sintaxe do CloudFormation da AWS
+resources:
+  Resources:
+    # Use como referência o template do cloudformation
+    Live020UserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: Live020UserPool
+        MfaConfiguration: OFF
+        # Apesar do nome o cognito não vai verificar automaticamente as propriedades
+        # só vai possibilitar que o cognito envie o email para o endereço de email por exemplo
+        # para aí sim verificar o email
+        AutoVerifiedAttributes:
+          - email
+        AdminCreateUserConfig:
+          # Define que os usuários podem se cadastrar por conta própria na plataforma
+          # e não precisam de um admin para criar a conta
+          AllowAdminCreateUserOnly: false
+        # Quais atributos vão ser usados para identificar os usuários
+        UsernameAttributes:
+          - email
+        AccountRecoverySetting:
+          RecoveryMechanisms:
+            - Name: verified_email
+              Priority: 1
+        # Politicas de criação de senha
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 10
+            RequireLowercase: false
+            RequireUppercase: false
+            RequireNumbers: false
+            RequireSymbols: false
+            # Periodo de tempo em que uma senha temporária é válida
+            # Isso é útil quando um admin cria uma senha para o primeiro acesso do usuário
+            TemporaryPasswordValidityDays: 7
+        Schema:
+          - Name: given_name
+            Mutable: true
+            Required: true
+            AttributeDataType: String
+          - Name: family_name
+            Mutable: true
+            Required: true
+            AttributeDataType: String
 
 functions:
   hello:
