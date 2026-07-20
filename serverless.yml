@@ -9,6 +9,8 @@ provider:
   runtime: nodejs20.x
   deploymentMethod: direct
   architecture: arm64
+  environment:
+    COGNITO_CLIENT_ID: !Ref Live020UserPoolClient
 
 custom:
   esbuild:
@@ -61,6 +63,7 @@ resources:
             # Periodo de tempo em que uma senha temporária é válida
             # Isso é útil quando um admin cria uma senha para o primeiro acesso do usuário
             TemporaryPasswordValidityDays: 7
+        # Dependendo da configuração, essas propriedades precisam ser enviadas na hora de cadastrar o usuário
         Schema:
           - Name: given_name
             Mutable: true
@@ -85,9 +88,9 @@ resources:
         RefreshTokenValidity: 1440 # 60 days
 
 functions:
-  hello:
-    handler: src/functions/hello.handler
+  signUp:
+    handler: src/functions/signUp.handler
     events:
       - httpApi:
-          method: GET
-          path: /hello
+          method: POST
+          path: /auth/sign-up

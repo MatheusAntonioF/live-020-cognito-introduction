@@ -5,8 +5,9 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.1090.0",
     "@types/aws-lambda": "^8.10.134",
-    "@types/node": "^20.11.24",
+    "@types/node": "^26.1.1",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
     "esbuild": "^0.20.1",
