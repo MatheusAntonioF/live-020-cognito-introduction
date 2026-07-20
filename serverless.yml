@@ -11,6 +11,15 @@ provider:
   architecture: arm64
   environment:
     COGNITO_CLIENT_ID: !Ref Live020UserPoolClient
+  # configuração do api gateway
+  httpApi:
+    authorizers:
+      CognitoAuthorizer:
+        type: jwt
+        identitySource: $request.header.Authorization
+        issuerUrl: !GetAtt Live020UserPool.ProviderURL
+        audience:
+          - !Ref Live020UserPoolClient
 
 custom:
   esbuild:
@@ -112,3 +121,11 @@ functions:
       - httpApi:
           method: POST
           path: /auth/account-confirmation
+  profile:
+    handler: src/functions/profile.handler
+    events:
+      - httpApi:
+          method: GET
+          path: /profile
+          authorizer:
+            name: CognitoAuthorizer
