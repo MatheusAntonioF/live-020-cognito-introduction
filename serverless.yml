@@ -104,6 +104,16 @@ resources:
         RefreshTokenValidity: 1440 # 60 days
 
 functions:
+  cognitoCustomMessage:
+    handler: src/functions/cognitoCustomMessage.handler
+    events:
+      - cognitoUserPool:
+          pool: Live020UserPool
+          trigger: CustomMessage
+          # as duas flags precisam ser enviadas quando a user pool já foi criada previamente
+          # parece ser algum tipo de bug da aws. não sei
+          existing: true
+          forceDeploy: true
   signUp:
     handler: src/functions/signUp.handler
     events:
