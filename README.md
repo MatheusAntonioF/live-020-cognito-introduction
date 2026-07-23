@@ -61,15 +61,15 @@ serverless deploy --aws-profile my-profile
 
 Replace `<API_URL>` with the URL returned by Serverless.
 
-| Method | Route | Authentication | Request body |
-| --- | --- | --- | --- |
-| `POST` | `/auth/sign-up` | Public | `email`, `password`, `firstName`, `lastName` |
-| `POST` | `/auth/account-confirmation` | Public | `email`, `code` |
-| `POST` | `/auth/sign-in` | Public | `email`, `password` |
-| `POST` | `/auth/refresh-token` | Public | `refreshToken` |
-| `POST` | `/auth/forgot-password` | Public | `email` |
-| `POST` | `/auth/reset-password` | Public | `email`, `code`, `newPassword` |
-| `GET` | `/profile` | Bearer access token | None |
+| Method | Route                        | Authentication      | Request body                                 |
+| ------ | ---------------------------- | ------------------- | -------------------------------------------- |
+| `POST` | `/auth/sign-up`              | Public              | `email`, `password`, `firstName`, `lastName` |
+| `POST` | `/auth/account-confirmation` | Public              | `email`, `code`                              |
+| `POST` | `/auth/sign-in`              | Public              | `email`, `password`                          |
+| `POST` | `/auth/refresh-token`        | Public              | `refreshToken`                               |
+| `POST` | `/auth/forgot-password`      | Public              | `email`                                      |
+| `POST` | `/auth/reset-password`       | Public              | `email`, `code`, `newPassword`               |
+| `GET`  | `/profile`                   | Bearer access token | None                                         |
 
 ### Create and confirm an account
 
